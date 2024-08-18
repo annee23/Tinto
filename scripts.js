@@ -60,7 +60,12 @@ const memberMessages = {
     "Yeon8": ["긍정적인 에너지를 더하며 활발하고 진솔한 참여가 돋보인다."]
 // Add more member messages as needed
 };
+
 document.addEventListener('DOMContentLoaded', function () {
+    AOS.init({
+        duration: 1200, // 애니메이션 지속 시간 (밀리초)
+    });
+    // 기존 함수 호출
     displayAnnouncements();
     displaySchedule();
     displayMembers();
@@ -89,6 +94,31 @@ document.querySelectorAll('.poster-container').forEach(container => {
         overlay.style.display = 'none';
     });
 });
+document.getElementById('signup-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const nickname = document.getElementById('nickname').value.trim();
+
+    if (nickname) {
+        createMemberPage(nickname);
+    }
+});
+
+function createMemberPage(nickname) {
+    // 멤버 목록에 추가
+    const memberList = document.getElementById('member-list');
+    const newMember = document.createElement('div');
+    newMember.className = 'member-item';
+    newMember.textContent = nickname;
+
+    newMember.addEventListener('click', () => {
+        window.location.href = `member_${nickname}.html`;
+    });
+
+    memberList.appendChild(newMember);
+
+    // 서버에서 멤버 페이지를 생성 (여기서는 예시로 페이지 이동만 구현)
+    window.location.href = `member_${nickname}.html`;
+}
 
 async function getPosterImage(title) {
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(title)}`;
