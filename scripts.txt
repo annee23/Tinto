@@ -1,0 +1,170 @@
+// TMDb API Key
+const apiKey = 'e36fff9f334beb3443cb984d6bb12249';
+
+// Announcement data (replace or extend with actual data as needed)
+const announcements = [
+    { date: '2024.10.03 - 10.06 ', title: 'Busan International Film Festival, BIFF 2024' },
+];
+
+// Movie data 
+const data = [
+    { "Date": "2024-04-10", "Title": "La chimera" },
+    { "Date": "2024-04-12", "Title": "ÏïÖÏùÄ Ï°¥Ïû¨ÌïòÏßÄ ÏïäÎäîÎã§" },
+    { "Date": "2024-04-24", "Title": "Ïó¨ÌñâÏûêÏùò ÌïÑÏöî" },
+    { "Date": "2024-04-28", "Title": "ÌÅ¨Î†àÏÑºÎèÑ" },
+    { "Date": "2024-05-01", "Title": "Ï∞®Ïù¥ÏΩ•Ïä§ÌÇ§Ïùò ÏïÑÎÇ¥" },
+    { "Date": "2024-05-05", "Title": "Ï≤úÍµ≠Î≥¥Îã§ ÎÇØÏÑ†" },
+    { "Date": "2024-05-06", "Title": "Ï±åÎ¶∞Ï†ÄÏä§" },
+    { "Date": "2024-05-09", "Title": "ÌéÑÌîÑ ÌîΩÏÖò" },
+    { "Date": "2024-05-14", "Title": "ÏáºÏÉùÌÅ¨ ÌÉàÏ∂ú" },
+    { "Date": "2024-05-16", "Title": "ÏÜåÍ≥µÎÖÄ" },
+    { "Date": "2024-05-20", "Title": "Î∞ïÌïòÏÇ¨ÌÉï" },
+    { "Date": "2024-06-03", "Title": "Ï∞¨ÎûÄÌïú ÎÇ¥ÏùºÎ°ú" },
+    { "Date": "2024-06-06", "Title": "ÎØ∏ÎÖÄ Í∞± Ïπ¥Î•¥Î©ò" },
+    { "Date": "2024-06-17", "Title": "Î°úÎ¥á ÎìúÎ¶º" },
+    { "Date": "2024-06-24", "Title": "ÌîÑÎ†åÏπò ÏàòÌîÑ" },
+    { "Date": "2024-07-07", "Title": "Î∂ÄÏ≤úÏòÅÌôîÏ†ú" },
+    { "Date": "2024-07-06", "Title": "Î∂ÄÏ≤úÏòÅÌôîÏ†ú" },
+    { "Date": "2024-07-14", "Title": "Î∂ÄÏ≤úÏòÅÌôîÏ†ú" },
+    { "Date": "2024-06-20", "Title": "ÌéÄÏπò ÎìúÎ†ÅÌÅ¨ Îü¨Î∏å" },
+    { "Date": "2024-06-27", "Title": "The Master" },
+    { "Date": "2024-06-22", "Title": "Ïó¨Î¶ÑÏù¥ÏïºÍ∏∞" },
+    { "Date": "2024-07-01", "Title": "ÌÉúÌíç ÌÅ¥ÎüΩ" },
+    { "Date": "2024-07-08", "Title": "ÌçºÌéôÌä∏ Îç∞Ïù¥Ï¶à" },
+    { "Date": "2024-07-18", "Title": "ÌÉÄÏù∏Ïùò Ï∑®Ìñ•" },
+    { "Date": "2024-08-08", "Title": "ÌÉùÏãú ÎìúÎùºÏù¥Î≤Ñ" },
+    { "Date": "2024-08-10", "Title": "Ïù¥Ïò§ Ïπ¥ÌîºÌÉÄÎÖ∏" }
+];
+
+// Member messages data (example for members)
+const memberMessages = {
+    "Rang7": ["Ïã§ÏßàÏ†ÅÏù∏ Ï°∞Ïñ∏ÏùÑ Ï†úÍ≥µÌïòÎ©∞ ÎåÄÌôîÏóê ÌôúÎ†•ÏùÑ Ï§ÄÎã§. Ï†ÅÍ∑πÏ†ÅÏù∏ Ï∞∏Ïó¨ÏôÄ Ïú†Î®∏Í∞Ä ÎèãÎ≥¥Ïù∏Îã§."],
+    "Min0": ["ÎåÄÌôîÏóê ÌôúÎ∞úÌïòÍ≤å Ï∞∏Ïó¨ÌïòÎ©∞ ÏùòÍ≤¨ÏùÑ Ïûò Ï°∞Ïú®ÌïúÎã§. Ï†ïÎ≥¥Î•º ÏûêÏ£º Í≥µÏú†ÌïúÎã§."],
+    "Jeong9": ["Ïã†Ï§ëÌïòÍ≤å Ï∞∏Ïó¨ÌïòÎ©∞ ÏùòÍ≤¨ ÍµêÌôòÏóê Í≥µÍ∞ê Îä•Î†•Ïù¥ Îõ∞Ïñ¥ÎÇòÎã§. ÎåÄÌôîÏóê Ïã†Ï§ëÌïòÍ≤å Ï∞∏Ïó¨ÌïúÎã§."],
+    "Young3": ["Í≤ΩÌóòÏùÑ Î∞îÌÉïÏúºÎ°ú Ïú†Ïö©Ìïú Ï†ïÎ≥¥Î•º Ï†úÍ≥µÌïòÎ©∞ Ï†ÅÍ∑πÏ†ÅÏúºÎ°ú Ï∞∏Ïó¨ÌïúÎã§. ÎåÄÌôîÏóê ÍπäÏù¥Î•º ÎçîÌïúÎã§."],
+    "Rom5": ["ÏùºÏ†ï Ïã†Ï≤≠Í≥º Í¥ÄÎ†®Îêú Î∂ÄÎ∂ÑÏóêÏÑú Ï£ºÎèÑÏ†ÅÏù∏ Ïó≠Ìï†ÏùÑ ÌïòÎ©∞ Ï≤¥Í≥ÑÏ†ÅÏúºÎ°ú Ï∞∏Ïó¨ÌïúÎã§. Ïã†ÏÜçÌïòÍ≥† Ï†ïÌôïÌïú Ï†ïÎ≥¥ Ï†úÍ≥µÏù¥ ÌäπÏßïÏù¥Îã§."],
+    "Yeon5": ["ÎåÄÌôîÏùò ÌùêÎ¶ÑÏùÑ Ïûò Ïù¥ÎÅåÎ©∞ ÌôúÎ∞úÌïòÍ≥† Ï†ÅÍ∑πÏ†ÅÏù∏ Ï∞∏Ïó¨Í∞Ä ÎëêÎìúÎü¨ÏßÑÎã§. Îã§ÏñëÌïú ÏùòÍ≤¨ÏùÑ Í≥µÏú†ÌïúÎã§."],
+    "Yong4": ["ÎåÄÌôîÏóê ÍπäÏù¥ ÏûàÎäî Î∂ÑÏÑùÏùÑ Ï†úÍ≥µÌïòÎ©∞ ÏßÑÏßÄÌïòÍ≥† ÏÑ±Ïã§Ìïú ÏùòÍ≤¨ Ï†úÏãúÍ∞Ä ÌäπÏßïÏù¥Îã§."],
+    "Min4": ["ÎåÄÌôîÏóê ÍπäÏù¥ÏôÄ Ïã§Ïö©ÏÑ±ÏùÑ ÎçîÌïòÎ©∞ ÎÖºÎ¶¨Ï†ÅÏù¥Í≥† Ïã†Ï§ëÌïú Ï†ëÍ∑ºÏù¥ ÎèãÎ≥¥Ïù∏Îã§."],
+    "Seo5": ["ÎåÄÌôîÏóê ÌôúÎ†•ÏùÑ Î∂àÏñ¥ÎÑ£ÏúºÎ©∞ Í∏çÏ†ïÏ†ÅÏù¥Í≥† ÌôúÎ∞úÌïú ÏÜåÌÜµÏù¥ ÌäπÏßïÏù¥Îã§."],
+    "Young2": ["ÎåÄÌôîÏùò Î∞©Ìñ•ÏùÑ Ïûò Ïù¥ÎÅåÎ©∞ Ïã†Ï§ëÌïòÍ≥† ÏÑ±Ïã§Ìïú ÏÜåÌÜµÏù¥ ÎëêÎìúÎü¨ÏßÑÎã§."],
+    "Jeong4": ["Ï†ÅÍ∑πÏ†ÅÏúºÎ°ú ÎåÄÌôîÏóê Ï∞∏Ïó¨ÌïòÎ©∞ Î™ÖÌôïÌïòÍ≥† Ïã†Î¢∞Í∞ê ÏûàÎäî ÏùòÍ≤¨ÏùÑ Ï†úÏãúÌïúÎã§."],
+    "Hae3": ["Ìè≠ÎÑìÏùÄ ÏãúÍ∞ÅÏùÑ Ï†úÍ≥µÌïòÎ©∞ ÏßÑÏÜîÌïòÍ≥† Ï†ÅÍ∑πÏ†ÅÏù∏ Ï∞∏Ïó¨Í∞Ä ÌäπÏßïÏù¥Îã§."],
+    "Chang7": ["Ïã†Ï§ëÌïòÍ≤å Ï∞∏Ïó¨ÌïòÎ©∞ Í∞ùÍ¥ÄÏ†ÅÏù¥Í≥† Î∂ÑÏÑùÏ†ÅÏù∏ ÏãúÍ∞ÅÏù¥ ÎèãÎ≥¥Ïù∏Îã§."],
+    "Jik0": ["Ï†ÅÍ∑πÏ†ÅÏúºÎ°ú Ï∞∏Ïó¨ÌïòÎ©∞ Ïã§Ïö©Ï†ÅÏù¥Í≥† Ïã†Î¢∞ÏÑ± ÏûàÎäî Ï†ïÎ≥¥ Ï†úÍ≥µÏù¥ ÌäπÏßïÏù¥Îã§."],
+    "In5": ["Íµ¨Ï≤¥Ï†ÅÏù∏ Í∏∞Ïó¨Î•º ÌïòÎ©∞ Ï°∞Ïö©ÌïòÎ©¥ÏÑúÎèÑ Ïã†Ï§ëÌïú ÏÜåÌÜµÏù¥ ÎèãÎ≥¥Ïù∏Îã§."],
+    "Eum1": ["ÎåÄÌôîÏóê ÌôúÎ†•ÏùÑ Ï£ºÎäî Ïó≠Ìï†ÏùÑ ÌïòÎ©∞ Í∏çÏ†ïÏ†ÅÏù¥Í≥† ÏóêÎÑàÏßÄ ÎÑòÏπòÎäî Ï∞∏Ïó¨Í∞Ä ÌäπÏßïÏù¥Îã§."],
+    "Yeon5": ["Ïã§Ïö©Ï†ÅÏù¥Í≥† Ïú†Ïö©Ìïú ÏùòÍ≤¨ÏùÑ Ï†úÍ≥µÌïòÎ©∞ Ï†ÅÍ∑πÏ†ÅÏù¥Í≥† ÏÑ±Ïã§Ìïú ÏÜåÌÜµÏù¥ ÎèãÎ≥¥Ïù∏Îã§."],
+    "Ho6": ["ÍπäÏù¥ÏôÄ Ïã§Ïö©ÏÑ±ÏùÑ ÎçîÌïòÎ©∞ ÏÑ±Ïã§ÌïòÍ≥† Ï†ÅÍ∑πÏ†ÅÏù∏ Ï∞∏Ïó¨Í∞Ä ÎèãÎ≥¥Ïù∏Îã§."],
+    "Jin7": ["Ï°∞Ïö©ÌïòÏßÄÎßå Ï§ëÏöîÌïú Í∏∞Ïó¨Î•º ÌïòÎ©∞ ÌïÑÏöîÌïú Ï†ïÎ≥¥Î•º Ï†úÍ≥µÌïúÎã§."],
+    "Yeon8": ["Í∏çÏ†ïÏ†ÅÏù∏ ÏóêÎÑàÏßÄÎ•º ÎçîÌïòÎ©∞ ÌôúÎ∞úÌïòÍ≥† ÏßÑÏÜîÌïú Ï∞∏Ïó¨Í∞Ä ÎèãÎ≥¥Ïù∏Îã§."]
+// Add more member messages as needed
+};
+document.addEventListener('DOMContentLoaded', function () {
+    displayAnnouncements();
+    displaySchedule();
+    displayMembers();
+});
+
+// ÏõπÏö©: ÎßàÏö∞Ïä§ Ìò∏Î≤Ñ Ïù¥Î≤§Ìä∏
+document.querySelectorAll('.poster-container').forEach(container => {
+    container.addEventListener('mouseenter', function() {
+        const overlay = this.querySelector('.overlay');
+        overlay.style.display = 'flex';
+    });
+    container.addEventListener('mouseleave', function() {
+        const overlay = this.querySelector('.overlay');
+        overlay.style.display = 'none';
+    });
+});
+
+// Î™®Î∞îÏùºÏö©: ÌÑ∞Ïπò Ïù¥Î≤§Ìä∏
+document.querySelectorAll('.poster-container').forEach(container => {
+    container.addEventListener('touchstart', function() {
+        const overlay = this.querySelector('.overlay');
+        overlay.style.display = 'flex';
+    });
+    container.addEventListener('touchend', function() {
+        const overlay = this.querySelector('.overlay');
+        overlay.style.display = 'none';
+    });
+});
+
+async function getPosterImage(title) {
+    const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(title)}`;
+    
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.results && data.results.length > 0) {
+            const posterPath = data.results[0].poster_path;
+            return posterPath ? `https://image.tmdb.org/t/p/w500${posterPath}` : 'images/default_poster.jpg';
+        } else {
+            return 'images/default_poster.jpg'; // Í≤∞Í≥ºÍ∞Ä ÏóÜÏùÑ Í≤ΩÏö∞ Í∏∞Î≥∏ Ïù¥ÎØ∏ÏßÄ
+        }
+    } catch (error) {
+        console.error('Error fetching poster image:', error);
+        return 'images/default_poster.jpg'; // ÏóêÎü¨ Î∞úÏÉù Ïãú Í∏∞Î≥∏ Ïù¥ÎØ∏ÏßÄ
+    }
+}
+
+async function displayAnnouncements() {
+    const announcementList = document.getElementById('announcement-list');
+    announcements.forEach(announcement => {
+        const listItem = document.createElement('div');
+        listItem.className = 'announcement-item';
+        listItem.innerHTML = `<p><strong>${announcement.date}</strong>: ${announcement.title}</p>`;
+        announcementList.appendChild(listItem);
+    });
+}
+
+async function displaySchedule() {
+    const scheduleList = document.getElementById('schedule-list');
+    for (const event of data) {
+        const posterUrl = await getPosterImage(event.Title);
+        const listItem = document.createElement('div');
+        listItem.className = 'event-item';
+        listItem.innerHTML = `
+            <div class="poster-container">
+                <img src="${posterUrl}" alt="${event.Title} Poster" class="event-poster">
+                <div class="overlay">
+                    <div class="overlay-text">${event.Date}: ${event.Title}</div>
+                </div>
+            </div>
+        `;
+        scheduleList.appendChild(listItem);
+    }
+}
+
+function displayMembers() {
+    const memberList = document.getElementById('member-list');
+    Object.keys(memberMessages).forEach(member => {
+        const listItem = document.createElement('div');
+        listItem.className = 'member-item';
+        listItem.textContent = member;
+
+        // 클릭 시 새 페이지로 이동
+        listItem.addEventListener('click', () => {
+            window.location.href = `member_${member}.html`;
+        });
+
+        memberList.appendChild(listItem);
+    });
+}
+
+
+function showFloatingMessage(member, element) {
+    const tooltip = document.createElement('div');
+    tooltip.className = 'tooltip';
+    tooltip.innerHTML = memberMessages[member].join('<br>');
+    element.appendChild(tooltip);
+    tooltip.style.display = 'block';
+}
+
+function hideFloatingMessage(element) {
+    const tooltip = element.querySelector('.tooltip');
+    if (tooltip) {
+        tooltip.remove();
+    }
+}

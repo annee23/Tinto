@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min0's Movies</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Min0</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#announcements">Announcements</a></li>
+                    <li><a href="index.html#schedule">Schedule</a></li>
+                    <li><a href="index.html#members">Members</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="movies">
+        <div id="movie-list" class="list-container">
+            <!-- Rang7의 영화 목록이 여기에 동적으로 추가됩니다 -->
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2024 Casa Cinema. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const apiKey = 'e36fff9f334beb3443cb984d6bb12249'; // 여기에 TMDb API 키를 입력하세요.
+
+        // TMDb API를 통해 영화 포스터 가져오기
+        async function getPosterUrl(title) {
+            const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(title)}`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.results && data.results.length > 0) {
+                    return `https://image.tmdb.org/t/p/w500${data.results[0].poster_path}`;
+                } else {
+                    return 'images/default_poster.jpg'; // 포스터가 없는 경우 기본 이미지 사용
+                }
+            } catch (error) {
+                console.error('Error fetching movie poster:', error);
+                return 'images/default_poster.jpg'; // 오류 발생 시 기본 이미지 사용
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            const memberMovies = [
+                { "date": "2024-04-10", "title": "La chimera", "comment": "정말 감명 깊었습니다." },
+                { "date": "2024-04-24", "title": "여행자의 필요", "comment": "좋은 영화였어요." }
+            ];
+
+            const movieList = document.getElementById('movie-list');
+            for (const movie of memberMovies) {
+                const posterUrl = await getPosterUrl(movie.title);
+                const listItem = document.createElement('div');
+                listItem.className = 'event-item';
+                listItem.innerHTML = `
+                    <div class="poster-container">
+                        <img src="${posterUrl}" alt="${movie.title} Poster" class="event-poster">
+                        <div class="overlay">
+                            <div class="overlay-text">${movie.date}: ${movie.title}<br>${movie.comment}</div>
+                        </div>
+                    </div>
+                `;
+                movieList.appendChild(listItem);
+            }
+        });
+    </script>
+</body>
+</html>
